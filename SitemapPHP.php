@@ -21,7 +21,7 @@ class SitemapPHP
 	/**
 	 * Sets the root path of sitemap
 	 *
-	 * @param string $domain 		Root path of the website, starting with http://
+	 * @param string $domain Root path of the website, starting with http://
 	 * @return void
 	 * @author Osman Ungur
 	 */
@@ -33,7 +33,7 @@ class SitemapPHP
 	/**
 	 * Gets the root path of sitemap
 	 *
-	 * @return string				Returns the root path of sitemap
+	 * @return string Returns the root path of sitemap
 	 * @author Osman Ungur
 	 */
 	private function getDomain()
@@ -42,12 +42,23 @@ class SitemapPHP
 	}
 	
 	/**
+	 * Send the xml header to browser
+	 *
+	 * @return void
+	 * @author Osman Ungur
+	 */
+	private function sendHeader()
+	{
+		header("Content-type: text/xml");
+	}
+	
+	/**
 	 * Adds an item to sitemap
 	 *
-	 * @param string $loc			URL of the page. This value must be less than 2,048 characters. 
-	 * @param string $priotory		The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
-	 * @param string $changefreq	How frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly and never.
-	 * @param string $lastmod		The date of last modification of url. Unix timestamp or any English textual datetime description.. 
+	 * @param string $loc URL of the page. This value must be less than 2,048 characters. 
+	 * @param string $priotory The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
+	 * @param string $changefreq How frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly and never.
+	 * @param string $lastmod The date of last modification of url. Unix timestamp or any English textual datetime description.. 
 	 * @return void
 	 * @author Osman Ungur
 	 */
@@ -64,8 +75,8 @@ class SitemapPHP
 	/**
 	 * Prepares given date for sitemap
 	 *
-	 * @param string $date 			Unix timestamp or any English textual datetime description
-	 * @return string				Year-Month-Day formatted date.
+	 * @param string $date Unix timestamp or any English textual datetime description
+	 * @return string Year-Month-Day formatted date.
 	 * @author Osman Ungur
 	 */
 	private function getLastModifiedDate($date)
@@ -87,8 +98,9 @@ class SitemapPHP
 	 */
 	public function render()
 	{
-		$this->writer->endElement(); 
-		$this->writer->endDocument(); 
+		$this->writer->endElement();
+		$this->writer->endDocument();
+		$this*>sendHeader();
 		$this->writer->flush();
 	}
 }
