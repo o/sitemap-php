@@ -57,17 +57,17 @@ class SitemapPHP
 	 * Adds an item to sitemap
 	 *
 	 * @param string $loc URL of the page. This value must be less than 2,048 characters. 
-	 * @param string $priotory The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
+	 * @param string $priority The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
 	 * @param string $changefreq How frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly and never.
 	 * @param string $lastmod The date of last modification of url. Unix timestamp or any English textual datetime description.. 
 	 * @return void
 	 * @author Osman Ungur
 	 */
-	public function addItem($loc, $priotory = self::DEFAULT_PRIOTORY, $changefreq = NULL, $lastmod = NULL)
+	public function addItem($loc, $priority = self::DEFAULT_PRIOTORY, $changefreq = NULL, $lastmod = NULL)
 	{
 		$this->writer->startElement('url');
 		$this->writer->writeElement('loc', $this->getDomain() . $loc);
-		if ($priotory)    $this->writer->writeElement('priotory', $priotory);
+		if ($priority)    $this->writer->writeElement('priority', $priority);
 		if ($changefreq)  $this->writer->writeElement('changefreq', $changefreq);
 		if ($lastmod)     $this->writer->writeElement('lastmod', $this->getLastModifiedDate($lastmod));
 		$this->writer->endElement();
