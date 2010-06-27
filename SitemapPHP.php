@@ -9,6 +9,7 @@ class SitemapPHP
 	const DEFAULT_PRIOTORY = 0.5;
 
 	function __construct($domain) {
+		$this->sendHeader();
 		$this->setDomain($domain);
 		$this->writer = new XMLWriter();
 		$this->writer->openURI('php://output'); 
@@ -66,7 +67,7 @@ class SitemapPHP
 	{
 		$this->writer->startElement('url');
 		$this->writer->writeElement('loc', $this->getDomain() . $loc);
-		if ($priotory)    $this->writer->writeElement('priotory', (float) $priotory);
+		if ($priotory)    $this->writer->writeElement('priotory', $priotory);
 		if ($changefreq)  $this->writer->writeElement('changefreq', $changefreq);
 		if ($lastmod)     $this->writer->writeElement('lastmod', $this->getLastModifiedDate($lastmod));
 		$this->writer->endElement();
@@ -100,7 +101,6 @@ class SitemapPHP
 	{
 		$this->writer->endElement();
 		$this->writer->endDocument();
-		$this*>sendHeader();
 		$this->writer->flush();
 	}
 }
