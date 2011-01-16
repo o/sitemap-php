@@ -1,5 +1,19 @@
 <?php
-class SitemapPHP
+/**
+ * Sitemap PHP
+ *
+ * This class used for generating Google Sitemaps
+ *
+ * @package    Sitemap
+ * @author     Osman Üngür <osmanungur@gmail.com>
+ * @copyright  2009-2011 Osman Üngür
+ * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @version    Version @package_version@
+ * @since      Class available since Version 1.0.0
+ * @link       http://github.com/osmanungur/sitemap-php
+ */
+
+class Sitemap
 {
 	
 	private $writer;
