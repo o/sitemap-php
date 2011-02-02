@@ -14,7 +14,6 @@ $sitemap->render();
 
 It generates well formed Sitemap XML for using with Google Sitemaps.
 
-<pre>
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
  <url>
@@ -40,7 +39,6 @@ It generates well formed Sitemap XML for using with Google Sitemaps.
   <priotory>0.5</priotory>
  </url>
 </urlset>
-</pre>
 
 To do
 -----
