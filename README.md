@@ -14,30 +14,30 @@ $sitemap->render();
 
 It generates well formed Sitemap XML for using with Google Sitemaps.
 
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
- <url>
-  <loc>http://www.osman.gen.tr/</loc>
-  <priotory>1.0</priotory>
-  <changefreq>daily</changefreq>
-  <lastmod>2010-06-27</lastmod>
- </url>
- <url>
-  <loc>http://www.osman.gen.tr/about</loc>
-  <priotory>0.8</priotory>
-  <changefreq>monthly</changefreq>
-  <lastmod>2010-06-25</lastmod>
- </url>
- <url>
-  <loc>http://www.osman.gen.tr/contact</loc>
-  <priotory>0.6</priotory>
-  <changefreq>yearly</changefreq>
-  <lastmod>2009-12-14</lastmod>
- </url>
- <url>
-  <loc>http://www.osman.gen.tr/otherpage</loc>
-  <priotory>0.5</priotory>
- </url>
-</urlset>
+	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	 <url>
+	  <loc>http://www.osman.gen.tr/</loc>
+	  <priotory>1.0</priotory>
+	  <changefreq>daily</changefreq>
+	  <lastmod>2010-06-27</lastmod>
+	 </url>
+	 <url>
+	  <loc>http://www.osman.gen.tr/about</loc>
+	  <priotory>0.8</priotory>
+	  <changefreq>monthly</changefreq>
+	  <lastmod>2010-06-25</lastmod>
+	 </url>
+	 <url>
+	  <loc>http://www.osman.gen.tr/contact</loc>
+	  <priotory>0.6</priotory>
+	  <changefreq>yearly</changefreq>
+	  <lastmod>2009-12-14</lastmod>
+	 </url>
+	 <url>
+	  <loc>http://www.osman.gen.tr/otherpage</loc>
+	  <priotory>0.5</priotory>
+	 </url>
+	</urlset>
 
 To do
 -----
