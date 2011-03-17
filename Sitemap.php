@@ -29,8 +29,16 @@ class Sitemap {
 	const EXT = '.xml';
 	const SCHEMA = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 	const DEFAULT_PRIORITY = 0.5;
-	const ITEM_PER_SITEMAP = 20000;
+	const ITEM_PER_SITEMAP = 50000;
 	const SEPERATOR = '-';
+
+	/**
+	 *
+	 * @param string $domain
+	 */
+	public function __construct($domain) {
+		$this->setDomain($domain);
+	}
 
 	/**
 	 * Sets root path of the website, starting with http://
@@ -38,9 +46,8 @@ class Sitemap {
 	 * @param string $domain
 	 * @return Sitemap
 	 */
-	public function setDomain($domain) {
+	private function setDomain($domain) {
 		$this->domain = $domain;
-		return $this;
 	}
 
 	/**
@@ -48,7 +55,7 @@ class Sitemap {
 	 *
 	 * @return string
 	 */
-	public function getDomain() {
+	private function getDomain() {
 		return $this->domain;
 	}
 
@@ -73,7 +80,7 @@ class Sitemap {
 	 * 
 	 * @return string
 	 */
-	public function getPath() {
+	private function getPath() {
 		return $this->path;
 	}
 
@@ -93,7 +100,7 @@ class Sitemap {
 	 * 
 	 * @return string
 	 */
-	public function getFilename() {
+	private function getFilename() {
 		return $this->filename;
 	}
 
@@ -108,18 +115,34 @@ class Sitemap {
 		return $this;
 	}
 
+	/**
+	 * Returns current item count
+	 *
+	 * @return int
+	 */
 	private function getCurrentItem() {
 		return $this->current_item;
 	}
 
+	/**
+	 * Increases item counter
+	 */
 	private function incCurrentItem() {
 		$this->current_item = $this->current_item + 1;
 	}
 
+	/**
+	 * Returns current sitemap file count
+	 *
+	 * @return int
+	 */
 	private function getCurrentSitemap() {
 		return $this->current_sitemap;
 	}
 
+	/**
+	 * Increases sitemap file count
+	 */
 	private function incCurrentSitemap() {
 		$this->current_sitemap = $this->current_sitemap + 1;
 	}
@@ -129,7 +152,7 @@ class Sitemap {
 	 * 
 	 * @return Sitemap
 	 */
-	public function startSitemap() {
+	private function startSitemap() {
 		$this->setWriter(new XMLWriter());
 		$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT);
 		$this->getWriter()->startDocument('1.0', 'UTF-8');
@@ -187,7 +210,7 @@ class Sitemap {
 	 *
 	 * @return Sitemap
 	 */
-	public function endSitemap() {
+	private function endSitemap() {
 		$this->getWriter()->endElement();
 		$this->getWriter()->endDocument();
 		$this->incCurrentSitemap();
