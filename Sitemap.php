@@ -45,7 +45,6 @@ class Sitemap {
 	 * Sets root path of the website, starting with http://
 	 *
 	 * @param string $domain
-	 * @return Sitemap
 	 */
 	private function setDomain($domain) {
 		$this->domain = $domain;
@@ -61,6 +60,7 @@ class Sitemap {
 	}
 
 	/**
+	 * Returns XMLWriter object instance
 	 *
 	 * @return XMLWriter
 	 */
@@ -69,6 +69,7 @@ class Sitemap {
 	}
 
 	/**
+	 * Assigns XMLWriter object instance
 	 *
 	 * @param XMLWriter $writer 
 	 */
@@ -127,6 +128,7 @@ class Sitemap {
 
 	/**
 	 * Increases item counter
+	 * 
 	 */
 	private function incCurrentItem() {
 		$this->current_item = $this->current_item + 1;
@@ -143,6 +145,7 @@ class Sitemap {
 
 	/**
 	 * Increases sitemap file count
+	 * 
 	 */
 	private function incCurrentSitemap() {
 		$this->current_sitemap = $this->current_sitemap + 1;
@@ -151,7 +154,6 @@ class Sitemap {
 	/**
 	 * Prepares sitemap XML document
 	 * 
-	 * @return Sitemap
 	 */
 	private function startSitemap() {
 		$this->setWriter(new XMLWriter());
@@ -160,7 +162,6 @@ class Sitemap {
 		$this->getWriter()->setIndent(true);
 		$this->getWriter()->startElement('urlset');
 		$this->getWriter()->writeAttribute('xmlns', self::SCHEMA);
-		return $this;
 	}
 
 	/**
@@ -209,13 +210,11 @@ class Sitemap {
 	/**
 	 * Finalizes tags of sitemap XML document.
 	 *
-	 * @return Sitemap
 	 */
 	private function endSitemap() {
 		$this->getWriter()->endElement();
 		$this->getWriter()->endDocument();
 		$this->incCurrentSitemap();
-		return $this;
 	}
 
 	/**
