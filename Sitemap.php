@@ -1,8 +1,9 @@
 <?php
+
 /**
- * Sitemap PHP
+ * Sitemap File
  *
- * This class used for generating Google Sitemaps
+ * This class used for generating sitemap file
  *
  * @package    Sitemap
  * @author     Osman Üngür <osmanungur@gmail.com>
@@ -12,61 +13,112 @@
  * @since      Class available since Version 1.0.0
  * @link       http://github.com/osmanungur/sitemap-php
  */
+class Sitemap_File {
 
-class Sitemap
-{
-	
+	/**
+	 *
+	 * @var XMLWriter
+	 */
 	private $writer;
 	private $domain;
-	const INDENT = 4;
+	private $path;
+	private $filename;
+
+	const EXT = '.xml';
 	const SCHEMA = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-	const DEFAULT_PRIOTORY = 0.5;
+	const DEFAULT_PRIORITY = 0.5;
 
-	function __construct($domain) {
-		$this->sendHeader();
-		$this->setDomain($domain);
-		$this->writer = new XMLWriter();
-		$this->writer->openURI('php://output'); 
-		$this->writer->startDocument('1.0', 'UTF-8'); 
-		$this->writer->setIndent(self::INDENT); 
-		$this->writer->startElement('urlset'); 
-		$this->writer->writeAttribute('xmlns', self::SCHEMA);
-	}
-	
 	/**
-	 * Sets the root path of sitemap
+	 * Sets root path of the website, starting with http://
 	 *
-	 * @param string $domain Root path of the website, starting with http://
-	 * @return void
-	 * @author Osman Ungur
+	 * @param string $domain
+	 * @return Sitemap_File
 	 */
-	private function setDomain($domain)
-	{
+	public function setDomain($domain) {
 		$this->domain = $domain;
+		return $this;
 	}
 
 	/**
-	 * Gets the root path of sitemap
+	 * Returns root path of the website
 	 *
-	 * @return string Returns the root path of sitemap
-	 * @author Osman Ungur
+	 * @return string
 	 */
-	private function getDomain()
-	{
+	public function getDomain() {
 		return $this->domain;
 	}
-	
+
 	/**
-	 * Send the xml header to browser
 	 *
-	 * @return void
-	 * @author Osman Ungur
+	 * @return XMLWriter
 	 */
-	private function sendHeader()
-	{
-		header("Content-type: text/xml");
+	private function getWriter() {
+		return $this->writer;
 	}
-	
+
+	/**
+	 *
+	 * @param XMLWriter $writer 
+	 */
+	private function setWriter(XMLWriter $writer) {
+		$this->writer = $writer;
+	}
+
+	/**
+	 * Returns path of sitemaps
+	 * 
+	 * @return string
+	 */
+	public function getPath() {
+		return $this->path;
+	}
+
+	/**
+	 * Sets paths of sitemaps
+	 * 
+	 * @param string $path
+	 * @return Sitemap_File
+	 */
+	public function setPath($path) {
+		$this->path = $path;
+		return $this;
+	}
+
+	/**
+	 * Returns filename of sitemap file
+	 * 
+	 * @return string
+	 */
+	public function getFilename() {
+		return $this->filename;
+	}
+
+	/**
+	 * Sets filename of sitemap file
+	 * 
+	 * @param string $filename
+	 * @return Sitemap_File
+	 */
+	public function setFilename($filename) {
+		$this->filename = $filename;
+		return $this;
+	}
+
+	/**
+	 * Prepares sitemap XML document
+	 * 
+	 * @return Sitemap_File
+	 */
+	public function open() {
+		$this->setWriter(new XMLWriter());
+		$this->getWriter()->openURI($this->getPath() . DIRECTORY_SEPARATOR . $this->getFilename() . self::EXT);
+		$this->getWriter()->startDocument('1.0', 'UTF-8');
+		$this->getWriter()->setIndent(true);
+		$this->getWriter()->startElement('urlset');
+		$this->getWriter()->writeAttribute('xmlns', self::SCHEMA);
+		return $this;
+	}
+
 	/**
 	 * Adds an item to sitemap
 	 *
@@ -74,17 +126,18 @@ class Sitemap
 	 * @param string $priority The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
 	 * @param string $changefreq How frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly and never.
 	 * @param string $lastmod The date of last modification of url. Unix timestamp or any English textual datetime description.. 
-	 * @return void
-	 * @author Osman Ungur
+	 * @return Sitemap_File
 	 */
-	public function addItem($loc, $priority = self::DEFAULT_PRIOTORY, $changefreq = NULL, $lastmod = NULL)
-	{
-		$this->writer->startElement('url');
-		$this->writer->writeElement('loc', $this->getDomain() . $loc);
-		if ($priority)    $this->writer->writeElement('priority', $priority);
-		if ($changefreq)  $this->writer->writeElement('changefreq', $changefreq);
-		if ($lastmod)     $this->writer->writeElement('lastmod', $this->getLastModifiedDate($lastmod));
-		$this->writer->endElement();
+	public function addItem($loc, $priority = self::DEFAULT_PRIORITY, $changefreq = NULL, $lastmod = NULL) {
+		$this->getWriter()->startElement('url');
+		$this->getWriter()->writeElement('loc', $this->getDomain() . $loc);
+		$this->getWriter()->writeElement('priority', $priority);
+		if ($changefreq)
+			$this->getWriter()->writeElement('changefreq', $changefreq);
+		if ($lastmod)
+			$this->getWriter()->writeElement('lastmod', $this->getLastModifiedDate($lastmod));
+		$this->getWriter()->endElement();
+		return $this;
 	}
 
 	/**
@@ -92,29 +145,25 @@ class Sitemap
 	 *
 	 * @param string $date Unix timestamp or any English textual datetime description
 	 * @return string Year-Month-Day formatted date.
-	 * @author Osman Ungur
 	 */
-	private function getLastModifiedDate($date)
-	{
-		if (!ctype_digit($date)) {
+	private function getLastModifiedDate($date) {
+		if (ctype_digit($date)) {
+			return date('Y-m-d', $date);
+		} else {
 			$date = strtotime($date);
 			return date('Y-m-d', $date);
 		}
-		else {
-			return date('Y-m-d', $date);
-		}
 	}
-	
+
 	/**
-	 * Sends the prepared sitemap to browser.
+	 * Finalizes tags of sitemap XML document.
 	 *
-	 * @return void
-	 * @author Osman Ungur
+	 * @return Sitemap_File
 	 */
-	public function render()
-	{
-		$this->writer->endElement();
-		$this->writer->endDocument();
-		$this->writer->flush();
+	public function save() {
+		$this->getWriter()->endElement();
+		$this->getWriter()->endDocument();
+		return $this;
 	}
+
 }
