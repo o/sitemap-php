@@ -31,6 +31,7 @@ class Sitemap {
 	const DEFAULT_PRIORITY = 0.5;
 	const ITEM_PER_SITEMAP = 50000;
 	const SEPERATOR = '-';
+	const INDEX_SUFFIX = 'index';
 
 	/**
 	 *
@@ -168,7 +169,7 @@ class Sitemap {
 	 * @param string $loc URL of the page. This value must be less than 2,048 characters. 
 	 * @param string $priority The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
 	 * @param string $changefreq How frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly and never.
-	 * @param string $lastmod The date of last modification of url. Unix timestamp or any English textual datetime description.. 
+	 * @param string|int $lastmod The date of last modification of url. Unix timestamp or any English textual datetime description.
 	 * @return Sitemap
 	 */
 	public function addItem($loc, $priority = self::DEFAULT_PRIORITY, $changefreq = NULL, $lastmod = NULL) {
@@ -215,6 +216,29 @@ class Sitemap {
 		$this->getWriter()->endDocument();
 		$this->incCurrentSitemap();
 		return $this;
+	}
+
+	/**
+	 * Writes Google sitemap index for generated sitemap files
+	 *
+	 * @param <type> $loc Accessible URL path of sitemaps
+	 * @param string|int $lastmod The date of last modification of sitemap. Unix timestamp or any English textual datetime description.
+	 */
+	public function createSitemapIndex($loc, $lastmod = 'Today') {
+		$indexwriter = new XMLWriter();
+		$indexwriter->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . self::INDEX_SUFFIX . self::EXT);
+		$indexwriter->startDocument('1.0', 'UTF-8');
+		$indexwriter->setIndent(true);
+		$indexwriter->startElement('sitemapindex');
+		$indexwriter->writeAttribute('xmlns', self::SCHEMA);
+		for ($index = 0; $index <= $this->getCurrentSitemap(); $index++) {
+			$indexwriter->startElement('sitemap');
+			$indexwriter->writeElement('loc', $loc . $this->getFilename() . self::SEPERATOR . $index . self::EXT);
+			$indexwriter->writeElement('lastmod', $this->getLastModifiedDate($lastmod));
+			$indexwriter->endElement();
+		}
+		$indexwriter->endElement();
+		$indexwriter->endDocument();
 	}
 
 }
