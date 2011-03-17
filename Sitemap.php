@@ -109,9 +109,9 @@ class Sitemap_File {
 	 * 
 	 * @return Sitemap_File
 	 */
-	public function open() {
+	public function startSitemap() {
 		$this->setWriter(new XMLWriter());
-		$this->getWriter()->openURI($this->getPath() . DIRECTORY_SEPARATOR . $this->getFilename() . self::EXT);
+		$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::EXT);
 		$this->getWriter()->startDocument('1.0', 'UTF-8');
 		$this->getWriter()->setIndent(true);
 		$this->getWriter()->startElement('urlset');
@@ -160,7 +160,7 @@ class Sitemap_File {
 	 *
 	 * @return Sitemap_File
 	 */
-	public function save() {
+	public function endSitemap() {
 		$this->getWriter()->endElement();
 		$this->getWriter()->endDocument();
 		return $this;
