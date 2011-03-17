@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Sitemap File
+ * Sitemap
  *
- * This class used for generating sitemap file
+ * This class used for generating Google Sitemap files
  *
  * @package    Sitemap
  * @author     Osman Üngür <osmanungur@gmail.com>
@@ -13,7 +13,7 @@
  * @since      Class available since Version 1.0.0
  * @link       http://github.com/osmanungur/sitemap-php
  */
-class Sitemap_File {
+class Sitemap {
 
 	/**
 	 *
@@ -22,17 +22,21 @@ class Sitemap_File {
 	private $writer;
 	private $domain;
 	private $path;
-	private $filename;
+	private $filename = 'sitemap';
+	private $current_item = 0;
+	private $current_sitemap = 0;
 
 	const EXT = '.xml';
 	const SCHEMA = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 	const DEFAULT_PRIORITY = 0.5;
+	const ITEM_PER_SITEMAP = 20000;
+	const SEPERATOR = '-';
 
 	/**
 	 * Sets root path of the website, starting with http://
 	 *
 	 * @param string $domain
-	 * @return Sitemap_File
+	 * @return Sitemap
 	 */
 	public function setDomain($domain) {
 		$this->domain = $domain;
@@ -77,7 +81,7 @@ class Sitemap_File {
 	 * Sets paths of sitemaps
 	 * 
 	 * @param string $path
-	 * @return Sitemap_File
+	 * @return Sitemap
 	 */
 	public function setPath($path) {
 		$this->path = $path;
@@ -97,21 +101,37 @@ class Sitemap_File {
 	 * Sets filename of sitemap file
 	 * 
 	 * @param string $filename
-	 * @return Sitemap_File
+	 * @return Sitemap
 	 */
 	public function setFilename($filename) {
 		$this->filename = $filename;
 		return $this;
 	}
 
+	private function getCurrentItem() {
+		return $this->current_item;
+	}
+
+	private function incCurrentItem() {
+		$this->current_item = $this->current_item + 1;
+	}
+
+	private function getCurrentSitemap() {
+		return $this->current_sitemap;
+	}
+
+	private function incCurrentSitemap() {
+		$this->current_sitemap = $this->current_sitemap + 1;
+	}
+
 	/**
 	 * Prepares sitemap XML document
 	 * 
-	 * @return Sitemap_File
+	 * @return Sitemap
 	 */
 	public function startSitemap() {
 		$this->setWriter(new XMLWriter());
-		$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::EXT);
+		$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT);
 		$this->getWriter()->startDocument('1.0', 'UTF-8');
 		$this->getWriter()->setIndent(true);
 		$this->getWriter()->startElement('urlset');
@@ -126,9 +146,16 @@ class Sitemap_File {
 	 * @param string $priority The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
 	 * @param string $changefreq How frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly and never.
 	 * @param string $lastmod The date of last modification of url. Unix timestamp or any English textual datetime description.. 
-	 * @return Sitemap_File
+	 * @return Sitemap
 	 */
 	public function addItem($loc, $priority = self::DEFAULT_PRIORITY, $changefreq = NULL, $lastmod = NULL) {
+		if (($this->getCurrentItem() % self::ITEM_PER_SITEMAP) == 0) {
+			if ($this->getWriter() instanceof XMLWriter) {
+				$this->endSitemap();
+			}
+			$this->startSitemap();
+		}
+		$this->incCurrentItem();
 		$this->getWriter()->startElement('url');
 		$this->getWriter()->writeElement('loc', $this->getDomain() . $loc);
 		$this->getWriter()->writeElement('priority', $priority);
@@ -158,11 +185,12 @@ class Sitemap_File {
 	/**
 	 * Finalizes tags of sitemap XML document.
 	 *
-	 * @return Sitemap_File
+	 * @return Sitemap
 	 */
 	public function endSitemap() {
 		$this->getWriter()->endElement();
 		$this->getWriter()->endDocument();
+		$this->incCurrentSitemap();
 		return $this;
 	}
 
