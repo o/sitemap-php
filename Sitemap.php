@@ -224,13 +224,14 @@ class Sitemap {
 	 * @param string|int $lastmod The date of last modification of sitemap. Unix timestamp or any English textual datetime description.
 	 */
 	public function createSitemapIndex($loc, $lastmod = 'Today') {
+		$this->endSitemap();
 		$indexwriter = new XMLWriter();
 		$indexwriter->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . self::INDEX_SUFFIX . self::EXT);
 		$indexwriter->startDocument('1.0', 'UTF-8');
 		$indexwriter->setIndent(true);
 		$indexwriter->startElement('sitemapindex');
 		$indexwriter->writeAttribute('xmlns', self::SCHEMA);
-		for ($index = 0; $index <= $this->getCurrentSitemap(); $index++) {
+		for ($index = 0; $index < $this->getCurrentSitemap(); $index++) {
 			$indexwriter->startElement('sitemap');
 			$indexwriter->writeElement('loc', $loc . $this->getFilename() . self::SEPERATOR . $index . self::EXT);
 			$indexwriter->writeElement('lastmod', $this->getLastModifiedDate($lastmod));
