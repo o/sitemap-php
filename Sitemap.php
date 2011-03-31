@@ -220,7 +220,7 @@ class Sitemap {
 	/**
 	 * Writes Google sitemap index for generated sitemap files
 	 *
-	 * @param <type> $loc Accessible URL path of sitemaps
+	 * @param string $loc Accessible URL path of sitemaps
 	 * @param string|int $lastmod The date of last modification of sitemap. Unix timestamp or any English textual datetime description.
 	 */
 	public function createSitemapIndex($loc, $lastmod = 'Today') {
