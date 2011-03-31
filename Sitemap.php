@@ -179,6 +179,7 @@ class Sitemap {
 				$this->endSitemap();
 			}
 			$this->startSitemap();
+			$this->incCurrentSitemap();
 		}
 		$this->incCurrentItem();
 		$this->getWriter()->startElement('url');
@@ -214,7 +215,6 @@ class Sitemap {
 	private function endSitemap() {
 		$this->getWriter()->endElement();
 		$this->getWriter()->endDocument();
-		$this->incCurrentSitemap();
 	}
 
 	/**
