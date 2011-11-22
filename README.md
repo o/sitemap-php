@@ -20,7 +20,7 @@ Generated XML file names defaulted to `sitemap-*.xml`, you can customize prefix 
 	$sitemap->setFilename('customsitemap');
 
 	
-We'll add sitemap url's with `setFilename` method. In this method, only first parameter (location) is required.
+We'll add sitemap url's with `addItem` method. In this method, only first parameter (location) is required.
 
 	$sitemap->addItem('/', '1.0', 'daily', 'Today');
 	$sitemap->addItem('/about', '0.8', 'monthly', 'Jun 25');
