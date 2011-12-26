@@ -48,6 +48,7 @@ class Sitemap {
 	 */
 	public function setDomain($domain) {
 		$this->domain = $domain;
+		return $this;
 	}
 
 	/**
