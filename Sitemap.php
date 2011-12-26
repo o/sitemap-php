@@ -42,11 +42,11 @@ class Sitemap {
 	}
 
 	/**
-	 * Sets root path of the website, starting with http://
+	 * Sets root path of the website, starting with http:// or https://
 	 *
 	 * @param string $domain
 	 */
-	private function setDomain($domain) {
+	public function setDomain($domain) {
 		$this->domain = $domain;
 	}
 
