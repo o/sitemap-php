@@ -43,6 +43,10 @@ from a sql result, or whatever.
         $sitemap->addItem('/post/' . $post['slug'], '0.6', 'weekly', $post['created_at']);
     }
 
+If you need to change domain for sitemap instance, you can override it via `setDomain` method.
+
+	$sitemap->setDomain('http://blog.example.com');
+	
 Finally we create index for sitemap files. This method also closes tags of latest generated xml file.
 
 	$sitemap->createSitemapIndex('http://example.com/sitemap/', 'Today');
