@@ -216,8 +216,10 @@ class Sitemap {
 	 *
 	 */
 	private function endSitemap() {
-		$this->getWriter()->endElement();
-		$this->getWriter()->endDocument();
+		if (isset($this->writer)) {
+			$this->getWriter()->endElement();
+			$this->getWriter()->endDocument();
+		}
 	}
 
 	/**
