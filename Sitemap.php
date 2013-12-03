@@ -158,7 +158,11 @@ class Sitemap {
 	 */
 	private function startSitemap() {
 		$this->setWriter(new XMLWriter());
-		$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT);
+		if ($this->getCurrentSitemap()) {
+			$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT);
+		} else {
+			$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::EXT);
+		}
 		$this->getWriter()->startDocument('1.0', 'UTF-8');
 		$this->getWriter()->setIndent(true);
 		$this->getWriter()->startElement('urlset');
@@ -234,7 +238,7 @@ class Sitemap {
 		$indexwriter->writeAttribute('xmlns', self::SCHEMA);
 		for ($index = 0; $index < $this->getCurrentSitemap(); $index++) {
 			$indexwriter->startElement('sitemap');
-			$indexwriter->writeElement('loc', $loc . $this->getFilename() . self::SEPERATOR . $index . self::EXT);
+			$indexwriter->writeElement('loc', $loc . $this->getFilename() . ($index ? self::SEPERATOR . $index : '') . self::EXT);
 			$indexwriter->writeElement('lastmod', $this->getLastModifiedDate($lastmod));
 			$indexwriter->endElement();
 		}
