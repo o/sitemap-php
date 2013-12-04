@@ -218,6 +218,9 @@ class Sitemap {
 	 *
 	 */
 	private function endSitemap() {
+		if (!$this->getWriter()) {
+			$this->startSitemap();
+		}
 		$this->getWriter()->endElement();
 		$this->getWriter()->endDocument();
 	}
