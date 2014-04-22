@@ -25,6 +25,7 @@ class Sitemap {
 	private $filename = 'sitemap';
 	private $current_item = 0;
 	private $current_sitemap = 0;
+	private $gzip = false;
 
 	const EXT = '.xml';
 	const SCHEMA = 'http://www.sitemaps.org/schemas/sitemap/0.9';
@@ -119,6 +120,26 @@ class Sitemap {
 	}
 
 	/**
+	 * Enables/disables sitemap file gzip compression
+	 * 
+	 * @param bool $state
+	 * @return Sitemap
+	 */
+	public function setGzip($state = true) {
+		$this->gzip = $state;
+		return $this;
+	}
+
+	/**
+	 * Determines whether sitemap file gzip compression is enabled
+	 * 
+	 * @return bool
+	 */
+	public function getGzip() {
+		return $this->gzip;
+	}
+
+	/**
 	 * Returns current item count
 	 *
 	 * @return int
@@ -158,11 +179,17 @@ class Sitemap {
 	 */
 	private function startSitemap() {
 		$this->setWriter(new XMLWriter());
-		if ($this->getCurrentSitemap()) {
-			$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT);
+		if($this->getGzip()){
+			$this->getWriter()->openMemory();
 		} else {
-			$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::EXT);
+			if ($this->getCurrentSitemap()) {
+				$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT);
+			} else {
+				$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::EXT);
+			}
+			$this->incCurrentSitemap();
 		}
+
 		$this->getWriter()->startDocument('1.0', 'UTF-8');
 		$this->getWriter()->setIndent(true);
 		$this->getWriter()->startElement('urlset');
@@ -184,7 +211,6 @@ class Sitemap {
 				$this->endSitemap();
 			}
 			$this->startSitemap();
-			$this->incCurrentSitemap();
 		}
 		$this->incCurrentItem();
 		$this->getWriter()->startElement('url');
@@ -223,6 +249,18 @@ class Sitemap {
 		}
 		$this->getWriter()->endElement();
 		$this->getWriter()->endDocument();
+
+		if($this->getGzip()){
+			$filename = ($this->getCurrentSitemap())
+				? $this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT
+				: $this->getPath() . $this->getFilename() . self::EXT;
+
+			$file = gzopen($filename.'.gz', 'w');
+			gzwrite($file, $this->getWriter()->outputMemory());
+			gzclose($file);
+
+			$this->incCurrentSitemap();
+		}
 	}
 
 	/**
@@ -241,7 +279,7 @@ class Sitemap {
 		$indexwriter->writeAttribute('xmlns', self::SCHEMA);
 		for ($index = 0; $index < $this->getCurrentSitemap(); $index++) {
 			$indexwriter->startElement('sitemap');
-			$indexwriter->writeElement('loc', $loc . $this->getFilename() . ($index ? self::SEPERATOR . $index : '') . self::EXT);
+			$indexwriter->writeElement('loc', $loc . $this->getFilename() . ($index ? self::SEPERATOR . $index : '') . self::EXT . ($this->getGzip() ? '.gz' : ''));
 			$indexwriter->writeElement('lastmod', $this->getLastModifiedDate($lastmod));
 			$indexwriter->endElement();
 		}

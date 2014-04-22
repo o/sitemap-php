@@ -48,6 +48,10 @@ from a sql result, or whatever.
 If you need to change domain for sitemap instance, you can override it via `setDomain` method.
 
 	$sitemap->setDomain('http://blog.example.com');
+
+If you would like to generate compressed (.xml.gz) sitemap files, enable gzip compression by using `setGzip` method.
+
+	$sitemap->setGzip();
 	
 Finally we create index for sitemap files. This method also closes tags of latest generated xml file.
 
