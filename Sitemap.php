@@ -7,11 +7,9 @@
  *
  * @package    Sitemap
  * @author     Osman Üngür <osmanungur@gmail.com>
- * @copyright  2009-2011 Osman Üngür
- * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version    Version @package_version@
- * @since      Class available since Version 1.0.0
- * @link       http://github.com/osmanungur/sitemap-php
+ * @copyright  2009-2015 Osman Üngür
+ * @license    http://opensource.org/licenses/MIT MIT License
+ * @link       http://github.com/o/sitemap-php
  */
 class Sitemap {
 
