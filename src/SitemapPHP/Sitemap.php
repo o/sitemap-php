@@ -10,8 +10,9 @@ namespace SitemapPHP;
  * @package    Sitemap
  * @author     Osman Üngür <osmanungur@gmail.com>
  * @copyright  2009-2015 Osman Üngür
+ * @copyright  2012-2015 Evert Pot (http://evertpot.com/)
  * @license    http://opensource.org/licenses/MIT MIT License
- * @link       http://github.com/o/sitemap-php
+ * @link       http://github.com/evert/sitemap-php
  */
 class Sitemap {
 
