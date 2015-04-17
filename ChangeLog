@@ -1,3 +1,7 @@
+1.2.0-stable (2015-04-17)
+	* Now licensed as MIT.
+	* Fixed: Fix fatal error on empty sitemap. Patch my @mkly.
+
 1.1.0-stable (2013-12-03)
 	* Changed: First sitemap is now called sitemap.xml, rather than
 	  sitemap-1.xml. Patch by @mkly.
