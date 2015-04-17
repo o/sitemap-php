@@ -4,7 +4,7 @@
     "description": "Lightweight library for generating Google sitemap XML files",
     "keywords": ["Sitemap"],
     "homepage": "http://code.google.com/p/sabredav/",
-    "license": "BSD License",
+    "license": "MIT",
     "authors": [
         {
             "name": "Osman Üngür",
