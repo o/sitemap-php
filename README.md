@@ -1,5 +1,3 @@
-**For the 90's people, i'm keeping this repository as 5.2 compatible. If you need PSR-0 and Composer compatible version, [here is a fork that maintained by Evert Pot](https://github.com/evert/sitemap-php).**
-
 What is sitemap-php ?
 ----------
 
