@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Lightweight library for generating Google sitemap XML files",
     "keywords": ["Sitemap"],
-    "homepage": "http://code.google.com/p/sabredav/",
+    "homepage": "https://github.com/evert/sitemap-php/",
     "license": "MIT",
     "authors": [
         {
