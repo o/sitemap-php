@@ -49,12 +49,12 @@ If you need to change domain for sitemap instance, you can override it via `setD
 
 	$sitemap->setDomain('http://blog.example.com');
 	
-Finally we create index for sitemap files. This method also closes tags of latest generated xml file.
+Finally we create index for sitemap files. **This method also closes tags of latest generated xml file.**
 
 	$sitemap->createSitemapIndex('http://example.com/sitemap/', 'Today');
 	
 When you run your script, it generates and saves XML files to given path.
-	
+
 sitemap-0.xml
 
 	<?xml version="1.0" encoding="UTF-8"?>
@@ -94,3 +94,12 @@ sitemap-index.xml
 	</sitemapindex>
 	
 You need to submit sitemap-index.xml to Google Sitemaps.
+
+**Please note that, generating sitemaps not overrides any previous generated sitemap file. You need to delete old files before the operation.**
+
+	$ rm -rv sitemap-*
+
+For the truncating a file with php, use the following snippet:
+
+	$handle = fopen("/path/to/sitemap/file.xml", "w");
+	fclose($handle);
