@@ -3,7 +3,7 @@
     "description": "Fast and lightweight library for generating Google sitemap XML files and index of sitemaps",
     "type": "library",
     "license": "MIT",
-	"homepage": "https://github.com/o/sitemap-php/",
+    "homepage": "https://github.com/o/sitemap-php/",
     "authors": [
         {
             "email": "osmanungur@gmail.com",
