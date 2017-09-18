@@ -40,9 +40,11 @@ class WebSitemapItem
      * WebSitemapItem constructor.
      * @param string $location
      */
-    public function __construct($location)
+    public function __construct($location = null)
     {
-        $this->location = $location;
+        if (null !== $location) {
+            $this->location = $location;
+        }
     }
 
     /**
@@ -55,10 +57,14 @@ class WebSitemapItem
 
     /**
      * @param string $location
+     *
+     * @return object $this 
      */
     public function setLocation($location)
     {
-        $this->location = $location;
+        $this->location = rtrim(strtolower($location), '/');
+
+        return $this;
     }
 
     /**
