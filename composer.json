@@ -1,5 +1,5 @@
 {
-    "name": "osm/sitemap",
+    "name": "osm/sitemap-php",
     "description": "Fast and lightweight library for generating Google sitemap XML files and index of sitemaps",
     "type": "library",
     "license": "MIT",
