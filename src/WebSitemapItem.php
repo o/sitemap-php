@@ -62,7 +62,7 @@ class WebSitemapItem
      */
     public function setLocation($location)
     {
-        $this->location = rtrim(strtolower($location));
+        $this->location = rtrim(strtolower($location), '/');
 
         return $this;
     }
