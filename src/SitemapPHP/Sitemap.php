@@ -1,5 +1,7 @@
 <?php
 
+namespace SitemapPHP;
+
 /**
  * Sitemap
  *
@@ -8,14 +10,15 @@
  * @package    Sitemap
  * @author     Osman Üngür <osmanungur@gmail.com>
  * @copyright  2009-2015 Osman Üngür
+ * @copyright  2012-2015 Evert Pot (http://evertpot.com/)
  * @license    http://opensource.org/licenses/MIT MIT License
- * @link       http://github.com/o/sitemap-php
+ * @link       http://github.com/evert/sitemap-php
  */
 class Sitemap {
 
 	/**
 	 *
-	 * @var XMLWriter
+	 * @var \XMLWriter
 	 */
 	private $writer;
 	private $domain;
@@ -61,7 +64,7 @@ class Sitemap {
 	/**
 	 * Returns XMLWriter object instance
 	 *
-	 * @return XMLWriter
+	 * @return \XMLWriter
 	 */
 	private function getWriter() {
 		return $this->writer;
@@ -70,9 +73,9 @@ class Sitemap {
 	/**
 	 * Assigns XMLWriter object instance
 	 *
-	 * @param XMLWriter $writer 
+	 * @param \XMLWriter $writer 
 	 */
-	private function setWriter(XMLWriter $writer) {
+	private function setWriter(\XMLWriter $writer) {
 		$this->writer = $writer;
 	}
 
@@ -155,7 +158,7 @@ class Sitemap {
 	 * 
 	 */
 	private function startSitemap() {
-		$this->setWriter(new XMLWriter());
+		$this->setWriter(new \XMLWriter());
 		if ($this->getCurrentSitemap()) {
 			$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT);
 		} else {
@@ -171,14 +174,14 @@ class Sitemap {
 	 * Adds an item to sitemap
 	 *
 	 * @param string $loc URL of the page. This value must be less than 2,048 characters. 
-	 * @param string $priority The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
-	 * @param string $changefreq How frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly and never.
-	 * @param string|int $lastmod The date of last modification of url. Unix timestamp or any English textual datetime description.
+	 * @param string|null $priority The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
+	 * @param string|null $changefreq How frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly and never.
+	 * @param string|int|null $lastmod The date of last modification of url. Unix timestamp or any English textual datetime description.
 	 * @return Sitemap
 	 */
 	public function addItem($loc, $priority = self::DEFAULT_PRIORITY, $changefreq = NULL, $lastmod = NULL) {
 		if (($this->getCurrentItem() % self::ITEM_PER_SITEMAP) == 0) {
-			if ($this->getWriter() instanceof XMLWriter) {
+			if ($this->getWriter() instanceof \XMLWriter) {
 				$this->endSitemap();
 			}
 			$this->startSitemap();
@@ -187,7 +190,8 @@ class Sitemap {
 		$this->incCurrentItem();
 		$this->getWriter()->startElement('url');
 		$this->getWriter()->writeElement('loc', $this->getDomain() . $loc);
-		$this->getWriter()->writeElement('priority', $priority);
+		if($priority !== null)
+			$this->getWriter()->writeElement('priority', $priority);
 		if ($changefreq)
 			$this->getWriter()->writeElement('changefreq', $changefreq);
 		if ($lastmod)
@@ -231,7 +235,7 @@ class Sitemap {
 	 */
 	public function createSitemapIndex($loc, $lastmod = 'Today') {
 		$this->endSitemap();
-		$indexwriter = new XMLWriter();
+		$indexwriter = new \XMLWriter();
 		$indexwriter->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . self::INDEX_SUFFIX . self::EXT);
 		$indexwriter->startDocument('1.0', 'UTF-8');
 		$indexwriter->setIndent(true);
