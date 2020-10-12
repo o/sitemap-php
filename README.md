@@ -103,3 +103,7 @@ For the truncating a file with php, use the following snippet:
 
 	$handle = fopen("/path/to/sitemap/file.xml", "w");
 	fclose($handle);
+
+
+
+Go this link: **[How To Create Dynamic Xml Sitemap In Codeigniter](https://www.phpcodingstuff.com/blog/how-to-create-dynamic-xml-sitemap-in-codeigniter.html)**
